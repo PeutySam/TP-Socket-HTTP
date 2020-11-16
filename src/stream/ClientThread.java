@@ -40,7 +40,9 @@ public class ClientThread
             }
         } catch (Exception e) {
             clients.remove(client);
-            sendToAll(clients, client.getUsername() +" has been lost in the void");
+            String outputStr = client.getUsername() +" has been lost in the void";
+            sendToAll(clients, outputStr);
+            background.add(outputStr);
             client.closeMe();
 
             System.err.println("Error in EchoServer thread:" + e);
