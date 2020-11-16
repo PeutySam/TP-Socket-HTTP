@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.List;
 
 public class User {
     private String username;
@@ -30,6 +31,16 @@ public class User {
 
     public BufferedReader getSocIn() {
         return socIn;
+    }
+
+    public void sendBackground(History background){
+        for(String str : background.getBackground()){
+            send(str);
+        }
+    }
+
+    public void send(String str){
+        socOut.println(str);
     }
 
     public void closeMe()  {

@@ -9,10 +9,7 @@ package stream;
 
 import java.io.*;
 import java.net.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class EchoServerMultiThreaded {
 
@@ -23,6 +20,8 @@ public class EchoServerMultiThreaded {
     public static void main(String args[]) {
         ServerSocket listenSocket;
         Set<User> clients = new HashSet<>();
+        History background = new History("saveFile");
+
         if (args.length != 1) {
             System.out.println("Usage: java EchoServer <EchoServer port>");
             System.exit(1);
@@ -38,16 +37,20 @@ public class EchoServerMultiThreaded {
                 String recPacket = socIn.readLine();
 
                 User client = new User(recPacket,clientSocket);
+
+                client.sendBackground(background);
+
                 clients.add(client);
 
                 System.out.println("Connexion from:" + clientSocket.getInetAddress());
-                ClientThread ct = new ClientThread(client,clients);
+                ClientThread ct = new ClientThread(client,clients,background);
                 ct.start();
             }
         } catch (Exception e) {
             System.err.println("Error in EchoServer:" + e);
         }
     }
+
 }
 
   

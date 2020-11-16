@@ -2,11 +2,11 @@ package stream;
 
 import java.io.BufferedReader;
 
-public class BackgroundThread extends Thread {
+public class ClientBackgroundThread extends Thread {
 
     private BufferedReader socIn;
 
-    public BackgroundThread(BufferedReader socIn) {
+    public ClientBackgroundThread(BufferedReader socIn) {
         this.socIn = socIn;
     }
 

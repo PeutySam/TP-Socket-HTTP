@@ -10,6 +10,7 @@ package stream;
 import java.io.*;
 import java.net.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,10 +19,12 @@ public class ClientThread
 
     private User client;
     private Set<User> clients;
+    private History background;
 
-    ClientThread(User s,Set<User> clients) {
+    ClientThread(User s,Set<User> clients, History background) {
         this.client = s;
         this.clients = clients;
+        this.background = background;
     }
 
     /**
@@ -32,6 +35,7 @@ public class ClientThread
         try {
             while (true) {
                 String line = client.getSocIn().readLine();
+                background.add(line);
                 sendToAll(clients,line);
             }
         } catch (Exception e) {
@@ -46,7 +50,7 @@ public class ClientThread
     private void sendToAll( Set<User> users, String str){
         for(User u: users){
             try {
-                u.getSocOut().println(str);
+                u.send(str);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -51,7 +51,7 @@ public class EchoClient {
         socOut.println(username + " has joined the party");
 
         String line;
-        BackgroundThread ct = new BackgroundThread(socIn);
+        ClientBackgroundThread ct = new ClientBackgroundThread(socIn);
         ct.start();
         while (true) {
             line = stdIn.readLine();
