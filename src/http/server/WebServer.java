@@ -71,7 +71,11 @@ public class WebServer{
                     header.add(str);
                     System.out.println(str);
                 }
+
+
                 Request request = new Request(header);
+
+
                 System.out.println(request.getResource());
 
                 String contentLength = request.getAttrib("Content-Length");
@@ -79,6 +83,8 @@ public class WebServer{
                     int nByte = Integer.parseInt(contentLength);
                     request.setBody(in.readNBytes(nByte));
                 }
+
+                String errCode = "200 OK";
 
                 switch (request.getMethod()){
                     case "HEAD":
@@ -105,7 +111,7 @@ public class WebServer{
                     break;
                     case "POST":
                     case "PUT":
-                        out.println("HTTP/1.0 404 NOT_FOUND");
+                        out.println("HTTP/1.0 " + errCode);
                         out.println("");
                         out.println("");
                         out.flush();
