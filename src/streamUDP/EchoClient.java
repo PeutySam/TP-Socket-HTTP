@@ -6,6 +6,10 @@
  */
 package streamUDP;
 
+
+import streamUDP.window.Window;
+
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -49,35 +53,40 @@ public class EchoClient {
             System.exit(1);
         }
 
-        ClientBackgroundThread clBackground = new ClientBackgroundThread(socket);
+
+
+
+
+
+        username = JOptionPane.showInputDialog("Please username: ");
+        if (username.equals("")){
+            stdIn.close();
+            socket.close();
+            return;
+        }
+
+        Sender sender = new Sender(username,socket,group, port);
+        sender.send(username + " has joined the room");
+
+        Window w = new Window(sender, username);
+
+        ClientBackgroundThread clBackground = new ClientBackgroundThread(socket,w);
         clBackground.start();
-
-        System.out.println("Input a username noob: ");
-        username = stdIn.readLine();
-        SendPacket(socket, username + " has joined the room", group, port);
-
-
 
         String line;
 
+        w.setVisible(true);
         while (true) {
             line = stdIn.readLine();
             if (line.equals(".")) break;
-            SendPacket(socket, username +" : " + line, group, port);
+            sender.send(username +" : " + line);
         }
 
         stdIn.close();
         socket.close();
     }
 
-    public static void SendPacket (MulticastSocket socket, String str,InetAddress group, int port){
-        DatagramPacket data = new DatagramPacket(str.getBytes(),str.length(),group, port);
-        try {
-            socket.send(data);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 }
 
 

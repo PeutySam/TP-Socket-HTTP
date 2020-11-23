@@ -1,23 +1,25 @@
-package stream.window;
+package streamUDP.window;
+
+import streamUDP.Sender;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.PrintStream;
 
-public class Window  extends JFrame {
+public class Window extends JFrame {
     private JButton sendButton;
     private JTextArea textArea;
     private JTextField textInput;
     private JScrollPane scrollPane;
-    public Window(PrintStream socOut, String username) throws HeadlessException {
+    public Window(Sender sender, String username) throws HeadlessException {
         super(username);
 
         Container pane = this.getContentPane();
         this.setSize(500,500);
         sendButton = new JButton("Send");
         sendButton.addActionListener(e -> {
-            socOut.println(username + ": " + textInput.getText());
+            sender.send(username + ": " + textInput.getText());
             textInput.setText("");
         });
 
@@ -25,7 +27,7 @@ public class Window  extends JFrame {
         textInput.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                socOut.println(username + ": " + textInput.getText());
+                sender.send(username + ": " + textInput.getText());
                 textInput.setText("");
             }
         });
