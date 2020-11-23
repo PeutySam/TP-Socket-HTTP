@@ -6,6 +6,9 @@
  */
 package stream;
 
+import stream.window.Window;
+
+import javax.swing.*;
 import java.io.*;
 import java.net.*;
 
@@ -18,6 +21,8 @@ public class EchoClient {
      * accepts a connection, receives a message from client then sends an echo to the client
      **/
     public static void main(String[] args) throws IOException {
+
+
         String username = null;
         Socket echoSocket = null;
         PrintStream socOut = null;
@@ -45,14 +50,27 @@ public class EchoClient {
             System.exit(1);
         }
 
-        System.out.println("Input a username noob: ");
-        username = stdIn.readLine();
+        username = JOptionPane.showInputDialog("Please username: ");
+        if (username.equals("")){
+            socOut.close();
+            socIn.close();
+            stdIn.close();
+            echoSocket.close();
+            return;
+        }
         socOut.println(username);
         socOut.println(username + " has joined the party");
 
         String line;
-        ClientBackgroundThread ct = new ClientBackgroundThread(socIn);
+
+        Window w = new Window(socOut, username);
+
+
+        ClientBackgroundThread ct = new ClientBackgroundThread(socIn, w);
         ct.start();
+
+
+        w.setVisible(true);
         while (true) {
             line = stdIn.readLine();
             if (line.equals(".")) break;
