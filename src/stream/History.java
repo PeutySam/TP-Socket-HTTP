@@ -33,6 +33,32 @@ public class History {
         return  strings;
     }
 
+    public List<String> getBackgroundByRoom(String roomName) {
+        List<String> strings = new LinkedList<>();
+
+        File file = new File(myPath);
+
+        Scanner reader = null;
+        try {
+            reader = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if(reader != null){
+            while(reader.hasNext()){
+                String line = reader.nextLine();
+                if(line.startsWith(roomName)){
+                    line = line.substring(roomName.length()+2);
+                    strings.add(line);
+                }
+
+            }
+            reader.close();
+        }
+
+        return  strings;
+    }
+
     public void add(String string) {
         try {
             FileOutputStream writer = new FileOutputStream(myPath,true);

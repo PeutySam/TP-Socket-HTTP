@@ -12,6 +12,7 @@ public class User {
     private Socket socket;
     private PrintStream socOut;
     private BufferedReader socIn;
+    private String room;
 
     public User(String username, Socket socket) throws IOException {
         this.username = username;
@@ -19,6 +20,7 @@ public class User {
         socIn = new BufferedReader(
                 new InputStreamReader(socket.getInputStream()));
         socOut = new PrintStream(socket.getOutputStream());
+        this.room="root";
     }
 
     public String getUsername() {
@@ -34,7 +36,7 @@ public class User {
     }
 
     public void sendBackground(History background){
-        for(String str : background.getBackground()){
+        for(String str : background.getBackgroundByRoom(this.room)){
             send(str);
         }
     }
@@ -52,5 +54,13 @@ public class User {
             e.printStackTrace();
         }
 
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 }

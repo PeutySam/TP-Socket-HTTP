@@ -20,6 +20,7 @@ public class EchoServerMultiThreaded {
     public static void main(String args[]) {
         ServerSocket listenSocket;
         Set<User> clients = new HashSet<>();
+
         History background = new History("saveFile");
 
         if (args.length != 1) {
@@ -45,6 +46,7 @@ public class EchoServerMultiThreaded {
                 System.out.println("Connexion from:" + clientSocket.getInetAddress());
                 ClientThread ct = new ClientThread(client,clients,background);
                 ct.start();
+
             }
         } catch (Exception e) {
             System.err.println("Error in EchoServer:" + e);

@@ -21,10 +21,13 @@ public class ClientThread
     private Set<User> clients;
     private History background;
 
+
+
     ClientThread(User s,Set<User> clients, History background) {
         this.client = s;
         this.clients = clients;
         this.background = background;
+
     }
 
     /**
@@ -35,8 +38,19 @@ public class ClientThread
         try {
             while (true) {
                 String line = client.getSocIn().readLine();
-                background.add(line);
-                sendToAll(clients,line);
+                if(line.startsWith(client.getUsername() +": !room")){
+                   String roomName = line.substring((client.getUsername() +": !room").length()+1);
+                   line = client.getUsername() + " left to room " + roomName;
+                   background.add(client.getRoom() + ": " + line);
+                   sendToRoom(clients, line);
+                   client.setRoom(roomName);
+                  client.sendBackground(background);
+                   sendToRoom(clients, client.getUsername() + " joined the room");
+
+                }else {
+                    background.add(client.getRoom() + ": " + line);
+                    sendToRoom(clients, line);
+                }
             }
         } catch (Exception e) {
             clients.remove(client);
@@ -53,6 +67,19 @@ public class ClientThread
         for(User u: users){
             try {
                 u.send(str);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private void sendToRoom( Set<User> users, String str){
+        for(User u: users){
+            try {
+                if(u.getRoom().equals(client.getRoom())){
+                    u.send(str);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
