@@ -32,21 +32,23 @@ public class EchoServerMultiThreaded {
             System.out.println("Server ready...");
             while (true) {
                 Socket clientSocket = listenSocket.accept();
+                try{
+                    BufferedReader socIn = new BufferedReader(
+                            new InputStreamReader(clientSocket.getInputStream()));
+                    String recPacket = socIn.readLine();
 
-                BufferedReader socIn = new BufferedReader(
-                        new InputStreamReader(clientSocket.getInputStream()));
-                String recPacket = socIn.readLine();
+                    User client = new User(recPacket,clientSocket);
 
-                User client = new User(recPacket,clientSocket);
+                    client.sendBackground(background);
 
-                client.sendBackground(background);
+                    clients.add(client);
 
-                clients.add(client);
+                    System.out.println("Connexion from:" + clientSocket.getInetAddress());
+                    ClientThread ct = new ClientThread(client,clients,background);
+                    ct.start();
+                }catch(Exception e){
 
-                System.out.println("Connexion from:" + clientSocket.getInetAddress());
-                ClientThread ct = new ClientThread(client,clients,background);
-                ct.start();
-
+                }
             }
         } catch (Exception e) {
             System.err.println("Error in EchoServer:" + e);

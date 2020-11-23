@@ -51,7 +51,7 @@ public class EchoClient {
         }
 
         username = JOptionPane.showInputDialog("Please username: ");
-        if (username.equals("")){
+        if (username == null || username.equals("")){
             socOut.close();
             socIn.close();
             stdIn.close();
