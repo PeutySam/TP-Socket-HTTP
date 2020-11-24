@@ -10,6 +10,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -89,24 +91,41 @@ public class WebServer{
                 switch (request.getMethod()){
                     case "HEAD":
                     case "GET":
-                        byte o[] = getFileContents(request.getResource());
-                        // Send the response
-                        // Send the headers
-                        if(o != null){
+                        if (request.getResource().equals("DynamicScript")){
                             out.println("HTTP/1.0 200 OK");
-                            out.println("Content-Type: " + getContentType(request.getResource()));
-                            out.println("Server: Bot");
-                            // this blank line signals the end of the headers
                             out.println("");
+                            switch (request.getPutAttrib("calculation")){
+                                case "add":
+                                    out.println("YES");
+                                    out.println(Integer.parseInt(request.getPutAttrib("op1")) + Integer.parseInt(request.getPutAttrib("op2")));
+                                break;
+                                case "time":
+                                    out.println(LocalTime.now());
+                                    break;
+                                default:
+                                    out.println("No Info");
+                            }
                             out.flush();
-                            // Send the HTML page
-                            if(request.getMethod().equals("GET"))
-                                remote.getOutputStream().write(o,0,o.length);
                         }else{
-                            out.println("HTTP/1.0 404 NOT_FOUND");
-                            out.println("");
-                            out.println("");
-                            out.flush();
+                            byte o[] = getFileContents(request.getResource());
+                            // Send the response
+                            // Send the headers
+                            if(o != null){
+                                out.println("HTTP/1.0 200 OK");
+                                out.println("Content-Type: " + getContentType(request.getResource()));
+                                out.println("Server: Bot");
+                                // this blank line signals the end of the headers
+                                out.println("");
+                                out.flush();
+                                // Send the HTML page
+                                if(request.getMethod().equals("GET"))
+                                    remote.getOutputStream().write(o,0,o.length);
+                            }else{
+                                out.println("HTTP/1.0 404 NOT_FOUND");
+                                out.println("");
+                                out.println("");
+                                out.flush();
+                            }
                         }
                     break;
                     case "POST":

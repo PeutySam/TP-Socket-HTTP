@@ -20,25 +20,21 @@ public class Request {
                 case "GET":
                 case "HEAD":
                 case "DELETE":
-                case "POST":
-                    resource = split[1].substring(1);
-                    httpVersion = split[2];
-                break;
                 case "OPTIONS":
                 case "PUT":
                     putAttribs = new HashMap<>();
                     if(split[1].contains("?")){
-                        String putSplit[] = split[1].split("\\?");
-                        resource = putSplit[0];
-                        String attribs[] = putSplit[1].split("&");
+                        String[] putSplit = split[1].split("\\?");
+                        resource = putSplit[0].substring(1);
+                        String[] attribs = putSplit[1].split("&");
                         for(String attr:attribs){
-                            String attrSplit[] = attr.split("=");
+                            String[] attrSplit = attr.split("=");
                             putAttribs.put(attrSplit[0],attrSplit[1]);
                         }
                     }else{
                         resource = split[1].substring(1);
-                        httpVersion = split[2];
                     }
+                    httpVersion = split[2];
                 break;
 
             }
@@ -59,6 +55,12 @@ public class Request {
 
     public String getAttrib(String type){
         return attributes.get(type);
+    }
+
+    public  String getPutAttrib(String type) {
+        return putAttribs.getOrDefault(type, "");
+
+
     }
 
     public String getMethod() {

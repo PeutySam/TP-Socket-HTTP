@@ -4,9 +4,14 @@
 
 <head>
     <title>Adding two numbers</title>
+
 </head>
 
-<body>
+<body onload="loadDoc()">
+<p id = timeTxt> time</p>
+<button onclick="loadDoc()">
+    UpdateTime
+</button>
 Enter First Number: <input id="first">
 Enter Second Number: <input id="second">
 <button onclick="add()">Add</button>
@@ -19,6 +24,14 @@ Result is: <input id="answer">
         b=Number(document.getElementById("second").value);
         c= a + b;
         document.getElementById("answer").value= c;
+    }
+    function loadDoc() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            document.getElementById("timeTxt").innerHTML = "Time: " + this.responseText;
+        };
+        xhttp.open("GET", "DynamicScript?calculation=time", true);
+        xhttp.send();
     }
 </script>
 
