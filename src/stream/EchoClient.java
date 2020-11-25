@@ -22,6 +22,7 @@ public class EchoClient {
      * Start the UI
      * Asks the user to choose a username
      * If a connection is accepted a client thread is started
+     * @param args Arguments for program, the ip and port to connect to
      **/
     public static void main(String[] args) throws IOException {
 
