@@ -93,19 +93,32 @@ public class WebServer{
                     case "HEAD":
                     case "GET":
                         if (request.getResource().equals("DynamicScript")){
-                            out.println("HTTP/1.0 200 OK");
-                            out.println("");
+
+
+
+                            String outputString = "";
                             switch (request.getPutAttrib("calculation")){
                                 case "add":
-                                    out.println("YES");
-                                    out.println(Integer.parseInt(request.getPutAttrib("op1")) + Integer.parseInt(request.getPutAttrib("op2")));
+                                    try{
+                                        outputString += Integer.parseInt(request.getPutAttrib("op1")) + Integer.parseInt(request.getPutAttrib("op2"));
+                                        out.println("HTTP/1.0 200 OK");
+                                    }catch(Exception e){
+                                        out.println("HTTP/1.0 500 INTERNAL_SERVER_ERROR");
+                                        outputString += "INTERNAL_SERVER_ERROR 500";
+                                    }
+
                                 break;
                                 case "time":
-                                    out.println(LocalTime.now());
+                                    outputString = LocalTime.now().toString();
+                                    out.println("HTTP/1.0 200 OK");
                                     break;
                                 default:
-                                    out.println("No Info");
+                                    outputString = "No Info";
+                                    out.println("HTTP/1.0 200 OK");
                             }
+
+                            out.println("");
+                            out.println(outputString);
                             out.flush();
                         }else{
                             byte o[] = getFileContents(request.getResource());
