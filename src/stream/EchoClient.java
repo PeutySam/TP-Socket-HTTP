@@ -19,6 +19,9 @@ public class EchoClient {
     /**
      * main method
      * accepts a connection, receives a message from client then sends an echo to the client
+     * Start the UI
+     * Asks the user to choose a username
+     * If a connection is accepted a client thread is started
      **/
     public static void main(String[] args) throws IOException {
 

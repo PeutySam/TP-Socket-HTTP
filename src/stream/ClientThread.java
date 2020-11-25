@@ -22,7 +22,12 @@ public class ClientThread
     private History background;
 
 
-
+    /**
+     *
+     * @param s The user using this thread
+     * @param clients All the known user using the chat
+     * @param background The chat history
+     */
     ClientThread(User s,Set<User> clients, History background) {
         this.client = s;
         this.clients = clients;
@@ -32,6 +37,8 @@ public class ClientThread
 
     /**
      * receives a request from client then sends an echo to the client
+     * Also check if the command !room is used and if so modify the room value of the user
+     * If a user disconnects, other users will be notified
      **/
     public void run() {
         Set<PrintStream> socOuts = new HashSet<>();
@@ -44,7 +51,7 @@ public class ClientThread
                    background.add(client.getRoom() + ": " + line);
                    sendToRoom(clients, line);
                    client.setRoom(roomName);
-                  client.sendBackground(background);
+                   client.sendBackground(background);
                    sendToRoom(clients, client.getUsername() + " joined the room");
 
                 }else {
@@ -63,6 +70,11 @@ public class ClientThread
         }
     }
 
+    /**
+     * This Method is used to send messages to every knwon user
+     * @param users All the known users
+     * @param str The message we want to send
+     */
     private void sendToAll( Set<User> users, String str){
         for(User u: users){
             try {
@@ -74,6 +86,11 @@ public class ClientThread
         }
     }
 
+    /**
+     * This Method is used to send messages to every user in the same room
+     * @param users All the users known
+     * @param str The message we want to send
+     */
     private void sendToRoom( Set<User> users, String str){
         for(User u: users){
             try {
