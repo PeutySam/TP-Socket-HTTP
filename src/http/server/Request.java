@@ -83,6 +83,7 @@ public class Request {
     }
     /**
      * Returns the body as an array of bytes, returns and empty array if no body
+     * @return The body to return
      */
     public byte[] getBody(){
         if(body == null){

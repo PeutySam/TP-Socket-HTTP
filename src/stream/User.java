@@ -18,7 +18,7 @@ public class User {
      *
      * @param username the name the user chose
      * @param socket the socket used by the user to send message
-     * @throws IOException
+     * @throws IOException Error on reading file
      */
     public User(String username, Socket socket) throws IOException {
         this.username = username;
