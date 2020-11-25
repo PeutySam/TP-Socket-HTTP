@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -128,8 +129,27 @@ public class WebServer{
                             }
                         }
                     break;
-                    case "POST":
                     case "PUT":
+                        System.out.println("Put File written " + request.getResource());
+                        FileWriter fWriter = new FileWriter(request.getResource());
+                        String gotString = new String(request.getBody(), StandardCharsets.UTF_8);
+                        fWriter.write(gotString);
+                        fWriter.close();
+                        System.out.println(gotString);
+
+                        out.println("HTTP/1.0 " + errCode);
+                        out.println("");
+                        out.println("");
+                        out.flush();
+                        break;
+                    case "POST":
+                        System.out.println("POST");
+                        gotString = new String(request.getBody(), StandardCharsets.UTF_8);
+                        System.out.println(gotString);
+
+
+
+
                         out.println("HTTP/1.0 " + errCode);
                         out.println("");
                         out.println("");

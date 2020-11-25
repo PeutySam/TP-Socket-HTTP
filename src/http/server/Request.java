@@ -21,6 +21,7 @@ public class Request {
                 case "HEAD":
                 case "DELETE":
                 case "OPTIONS":
+                case "POST":
                 case "PUT":
                     putAttribs = new HashMap<>();
                     if(split[1].contains("?")){
@@ -50,6 +51,9 @@ public class Request {
     }
 
     public void setBody(byte b[]){
+        if(body == null){
+            body = new byte[0];
+        }
         body = b;
     }
 
@@ -61,6 +65,10 @@ public class Request {
         return putAttribs.getOrDefault(type, "");
 
 
+    }
+
+    public byte[] getBody(){
+        return body;
     }
 
     public String getMethod() {
