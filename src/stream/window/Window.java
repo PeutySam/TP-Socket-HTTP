@@ -10,6 +10,13 @@ public class Window  extends JFrame {
     private JTextArea textArea;
     private JTextField textInput;
     private JScrollPane scrollPane;
+
+    /**
+     * Runs window interface for client
+     * @param socOut the socket that is needed to send information
+     * @param username the username of the user
+     * @throws HeadlessException runs an exception if headless
+     */
     public Window(PrintStream socOut, String username) throws HeadlessException {
         super(username);
 
@@ -51,6 +58,10 @@ public class Window  extends JFrame {
 
     }
 
+    /**
+     * Write text to the interface
+     * @param txt the string tom write
+     */
     public void writeText(String txt){
         textArea.append("\n" + txt);
     }

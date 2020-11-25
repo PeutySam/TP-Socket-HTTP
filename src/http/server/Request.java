@@ -12,6 +12,10 @@ public class Request {
     private Map<String,String> attributes;
     private Map<String,String> putAttribs;
 
+    /**
+     * Creates a new request which then reads the headers sent and parses it into different objects that can then be read
+     * @param header a list of strings that are composed of the information received by the port.
+     */
     public Request(List<String> header) {
         if (header.size() > 0) {
             String split[] = header.get(0).split(" ");
@@ -50,31 +54,55 @@ public class Request {
         }
     }
 
+    /**
+     * Sets the body as a certain array of byte
+     * @param b the new body
+     */
     public void setBody(byte b[]){
-        if(body == null){
-            body = new byte[0];
-        }
         body = b;
     }
 
+    /**
+     * Returns the attributes that have been parsed
+     * @param type the name of the attribute as a string
+     * @return the attribute that has been gotten
+     */
     public String getAttrib(String type){
         return attributes.get(type);
     }
 
+    /**
+     * Returns attributes that were added as part of the url
+     * @param type the name of the attribute as a string
+     * @return the attribute that has been gotten
+     */
     public  String getPutAttrib(String type) {
         return putAttribs.getOrDefault(type, "");
 
 
     }
-
+    /**
+     * Returns the body as an array of bytes, returns and empty array if no body
+     */
     public byte[] getBody(){
+        if(body == null){
+            body = new byte[0];
+        }
         return body;
     }
 
+    /**
+     * Returns the method
+     * @return the method from the request
+     */
     public String getMethod() {
         return method;
     }
 
+    /**
+     *  Returns the Resource
+     * @return the resource from the request
+     */
     public String getResource() {
         return resource;
     }

@@ -12,6 +12,13 @@ public class Window extends JFrame {
     private JTextArea textArea;
     private JTextField textInput;
     private JScrollPane scrollPane;
+
+    /**
+     * Creates window interface
+     * @param sender The information required for sending information to the other clients
+     * @param username The username of the user
+     * @throws HeadlessException returns an exception if headless
+     */
     public Window(Sender sender, String username) throws HeadlessException {
         super(username);
 
@@ -53,6 +60,10 @@ public class Window extends JFrame {
 
     }
 
+    /**
+     * Write text to the interface
+     * @param txt the string tom write
+     */
     public void writeText(String txt){
         textArea.append("\n" + txt);
     }
