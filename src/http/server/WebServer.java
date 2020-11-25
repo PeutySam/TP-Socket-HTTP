@@ -168,6 +168,15 @@ public class WebServer{
                         out.println("");
                         out.flush();
                     break;
+
+                    case "DELETE":
+                        System.out.println("Supposed to delete " + request.getResource());
+
+                        out.println("HTTP/1.0 " + errCode);
+                        out.println("");
+                        out.println("");
+                        out.flush();
+                    break;
                 }
 
 
