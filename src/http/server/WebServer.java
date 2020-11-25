@@ -30,7 +30,7 @@ import java.util.Scanner;
 public class WebServer{
 
     /**
-     * WebServer constructor.
+     * WebServer constructor. Used to start the server
      */
     protected void start(int port) {
         ServerSocket s;
@@ -188,6 +188,11 @@ public class WebServer{
         }
     }
 
+    /**
+     * Returns the content type of a certain path
+     * @param path The path to the file
+     * @return the type of file (mp3,mp4 etc)
+     */
     private String getContentType (String path){
         URL p;
         try {
@@ -214,6 +219,11 @@ public class WebServer{
         return  null;
     }
 
+    /**
+     * Gets file contents from a certain file
+     * @param path teh path to said file
+     * @return the contents of said file
+     */
     private byte[] getFileContents(String path){
         URL p;
         try {
@@ -247,8 +257,8 @@ public class WebServer{
 
     /**
      * Start the application.
-     *
-     * @param args Command line parameters are not used.
+     * Args must be set
+     * @param args Command line parameters are used for the port .
      */
     public static void main(String args[]) {
         WebServer ws = new WebServer();
