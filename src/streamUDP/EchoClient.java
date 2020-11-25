@@ -23,6 +23,7 @@ public class EchoClient {
     /**
      * main method
      * accepts a connection, receives a message from client then sends an echo to the client
+     * @param args The arguments used to connect to the network, contains the multicast ip and the port
      **/
     public static void main(String[] args) throws IOException {
         String username = null;

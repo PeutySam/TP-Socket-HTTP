@@ -15,7 +15,10 @@ public class EchoServerMultiThreaded {
 
     /**
      * main method
-     *
+     * Executes the server and opens the port set in the arguments
+     * As new people connect the new threads are created, and also each user profile is created and
+     * they are assigned into a room.
+     * @param args Arguments given to the program, contains port
      **/
     public static void main(String args[]) {
         ServerSocket listenSocket;
