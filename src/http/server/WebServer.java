@@ -32,14 +32,14 @@ public class WebServer{
     /**
      * WebServer constructor.
      */
-    protected void start() {
+    protected void start(int port) {
         ServerSocket s;
 
-        System.out.println("Webserver starting up on port 3000");
+        System.out.println("Webserver starting up on port " + port);
         System.out.println("(press ctrl-c to exit)");
         try {
             // create the main server socket
-            s = new ServerSocket(3000);
+            s = new ServerSocket(port);
         } catch (Exception e) {
             System.out.println("Error: " + e);
             return;
@@ -230,6 +230,6 @@ public class WebServer{
      */
     public static void main(String args[]) {
         WebServer ws = new WebServer();
-        ws.start();
+        ws.start(Integer.parseInt(args[0]));
     }
 }
