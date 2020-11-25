@@ -172,7 +172,7 @@ public class WebServer{
                     case "DELETE":
                         System.out.println("Supposed to delete " + request.getResource());
 
-                        out.println("HTTP/1.0 " + errCode);
+                        out.println("HTTP/1.0 202 DELETE_SUCCESS");
                         out.println("");
                         out.println("");
                         out.flush();
